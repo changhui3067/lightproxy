@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { StatusBar } from '../status-bar';
 import { getAllExtensions } from '../../extensions';
+import { Feedback } from '../feedback';
 
 import { Icon } from 'antd';
 
@@ -22,6 +23,9 @@ export const AppContext = React.createContext({
     isDarkMode: false,
 });
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const TIME_DURATION = isDevelopment ? 2400 : 2 * 24 * 60 * 60 * 1000;
+
 export const App = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [statusRightItems, setStatusRightItems] = useState([] as Function[]);
@@ -33,6 +37,19 @@ export const App = () => {
     const statusRightItemsRef = useRef(statusRightItems);
 
     const { t } = useTranslation();
+
+    const [showFeedback, setShowFeedback] = useState(false);
+    const feedbackCommited = CoreAPI.store.get('feedbackCommited');
+
+    if (!feedbackCommited && !showFeedback) {
+        let appFirstStartAt = CoreAPI.store.get('appFirstStartAt');
+        if (!appFirstStartAt) {
+            appFirstStartAt = new Date().getTime();
+            CoreAPI.store.set('appFirstStartAt', appFirstStartAt);
+        } else if (new Date().getTime() - appFirstStartAt > TIME_DURATION) {
+            setShowFeedback(true);
+        }
+    }
 
     useEffect(() => {
         // use and unuse api is from https://webpack.js.org/loaders/style-loader/#lazystyletag
@@ -148,6 +165,9 @@ export const App = () => {
                     <StatusBar rightItems={statusRightItems} />
                 </Provider>
             </div>
+            {/* <div className="lightproxy-panel-container drag">{Panel ? <Panel /> : null}</div> */}
+            {/* <StatusBar rightItems={statusRightItems} /> */}
+            {showFeedback && <Feedback onClose={() => setShowFeedback(false)} />}
         </AppContext.Provider>
     );
 };

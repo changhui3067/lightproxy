@@ -1,0 +1,12 @@
+version: 0.1.0
+files:
+  - url: LightProxy-0.1.0-mac.zip
+    sha512: uquJIPnZTS4FOfp/0QLfryUdFIGLn7Y25CUt+UT+UrIjeEcICzunNnGBeDcimYMvd/FC2ekgysH5n2RtIW2+Wg==
+    size: 81899081
+    blockMapSize: 86705
+  - url: LightProxy-0.1.0.dmg
+    sha512: Jt6Pz4YrG9SEvAnyYLNqn9Uv4eUEKzG/2suwtY0Obn+Csg2M/yc4sWf2axW4Gv5cjaXvXym9d0FPpdWowopq5g==
+    size: 84767680
+path: LightProxy-0.1.0-mac.zip
+sha512: uquJIPnZTS4FOfp/0QLfryUdFIGLn7Y25CUt+UT+UrIjeEcICzunNnGBeDcimYMvd/FC2ekgysH5n2RtIW2+Wg==
+releaseDate: '2020-05-22T05:44:35.604Z'

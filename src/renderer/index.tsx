@@ -8,9 +8,19 @@ import { remote } from 'electron';
 import * as monaco from '@timkendrick/monaco-editor/dist/external';
 import '@timkendrick/monaco-editor/dist/external/monaco.css';
 import 'reset-css';
-
 import { App } from './components/app';
 import { i18nResources } from './i18n';
+
+// @ts-ignore
+import * as reactTrack from '@dada/react-track';
+
+reactTrack.init({
+    name: 'dadaproxy_h5',
+    topic: 'dada_app_h5_log',
+    enabled: true,
+});
+// @ts-ignore
+window.reactTrack = reactTrack;
 
 // @ts-ignore
 window.monaco = monaco;

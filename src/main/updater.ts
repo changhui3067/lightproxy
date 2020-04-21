@@ -45,23 +45,32 @@ export async function checkUpdater() {
     } catch (e) {}
 
     try {
-        const url =
-            updateChannel === 'stable'
-                ? 'https://gw.alipayobjects.com/os/LightProxy/release.json'
-                : 'https://gw.alipayobjects.com/os/LightProxy/beta-release.json';
+        // const url =
+        //     updateChannel === 'stable'
+        //         ? 'https://gw.alipayobjects.com/os/LightProxy/release.json'
+        //         : 'https://gw.alipayobjects.com/os/LightProxy/beta-release.json';
+        const url = 'http://git.corp.imdada.cn/changhui/lightproxy/raw/develop/release/update/release.json';
         const res = await fetch(url);
         const data = await res.json();
-        logger.info('get update info', data);
+
+        console.log('get update info', data);
 
         if (compareVersions(data.version, version) === 1) {
             logger.info(`Version update: ${version} => ${data.version}`);
             try {
+                console.log('try remove ', LIGHTPROXY_UPDATE_DIR);
                 fs.removeSync(LIGHTPROXY_UPDATE_DIR);
-            } catch (e) {}
+            } catch (e) {
+                console.log(e);
+            }
             fs.mkdirpSync(LIGHTPROXY_UPDATE_DIR);
 
+            // const dl = new DownloaderHelper(
+            //     SYSTEM_IS_MACOS ? data['asar_gzip'] : data['win_asar_gzip'],
+            //     LIGHTPROXY_UPDATE_DIR,
+            // );
             const dl = new DownloaderHelper(
-                SYSTEM_IS_MACOS ? data['asar_gzip'] : data['win_asar_gzip'],
+                SYSTEM_IS_MACOS ? data['mac_asar'] : data['win_asar'],
                 LIGHTPROXY_UPDATE_DIR,
             );
 
@@ -69,7 +78,6 @@ export async function checkUpdater() {
                 // @ts-ignore
                 dl.on('end', async downloadInfo => {
                     const complete = async () => {
-                        logger.info('Download complete');
                         const asarPath = downloadInfo.filePath.replace(/\.asar__gzip$/, '.asar');
 
                         if (fs.existsSync(asarPath)) {
@@ -83,10 +91,11 @@ export async function checkUpdater() {
                         fs.writeFileSync(asarPath, afterCompress);
                         process.noAsar = false;
 
+                        console.log('write file', LIGHTPROXY_UPDATE_CONFIG);
                         fs.writeFileSync(
                             LIGHTPROXY_UPDATE_CONFIG,
                             JSON.stringify({
-                                md5: SYSTEM_IS_MACOS ? data['md5'] : data['win_md5'],
+                                md5: SYSTEM_IS_MACOS ? data['mac_md5'] : data['win_md5'],
                                 path: asarPath,
                             }),
                         );

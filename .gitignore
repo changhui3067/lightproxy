@@ -11,7 +11,6 @@ yarn.lock
 
 app/dist/
 app/node_modules/
-release/
 docs/.vuepress/dist
 .tmp
 vendor/files/node/modules

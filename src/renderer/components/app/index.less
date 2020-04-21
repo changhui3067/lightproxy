@@ -1,4 +1,5 @@
-@import "../status-bar/index.less";
+@import '../status-bar/index.less';
+@import '../feedback/index.less';
 
 .lightproxy-panel-dock {
     display: inline-block;
@@ -43,12 +44,16 @@
     width: calc(100% - 70px);
 }
 
-#app, body, html, .lightproxy-app-container {
+#app,
+body,
+html,
+.lightproxy-app-container {
     height: 100%;
     background-color: @background-color;
 }
 
-html, body {
+html,
+body {
     overflow: hidden;
     position: fixed;
 
@@ -62,11 +67,13 @@ html, body {
         -webkit-app-region: no-drag !important;
     }
 
-    .no-drag *, .no-drag {
+    .no-drag *,
+    .no-drag {
         -webkit-app-region: no-drag !important;
     }
-    
-    .drag *, .drag {
+
+    .drag *,
+    .drag {
         -webkit-app-region: drag;
     }
 
@@ -80,16 +87,17 @@ html, body {
         background-color: @button-bgcolor !important;
     }
 
-    .titlebar-stoplight .titlebar-close, .titlebar-stoplight .titlebar-minimize, .titlebar-stoplight .titlebar-fullscreen {
+    .titlebar-stoplight .titlebar-close,
+    .titlebar-stoplight .titlebar-minimize,
+    .titlebar-stoplight .titlebar-fullscreen {
         width: 13px;
         height: 13px;
     }
 
     // fix manoco hidden widget block drag of actionbar
-    .editor-widget[aria-hidden="true"] {
+    .editor-widget[aria-hidden='true'] {
         display: none;
     }
-
 }
 
 .titlebar-stoplight {
@@ -98,4 +106,3 @@ html, body {
         display: none;
     }
 }
-

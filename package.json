@@ -1,6 +1,6 @@
 {
   "name": "LightProxy",
-  "version": "1.1.20",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "./dist/main.js",
   "scripts": {
@@ -11,9 +11,9 @@
     "compile-renderer": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.renderer.prod.config.js",
     "compile": "yarn run lint && yarn run compile-main && yarn run compile-renderer",
     "build": "yarn clean:dist && yarn syncversion && yarn compile ",
-    "dist": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac --win --x64 --publish never",
-    "dist:mac": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac --x64",
-    "dist:win": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --x64",
+    "dist": "yarn clean:dist && yarn clean:release && yarn syncversion && yarn compile && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac --win --x64 && yarn genrelease",
+    "dist:mac": "yarn clean:dist && yarn syncversion && yarn compile && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac --x64 && yarn genrelease",
+    "dist:win": "yarn clean:dist && yarn syncversion && yarn compile && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --x64",
     "dist-codesign": "yarn run build && electron-builder --mac --win --x64 --publish never",
     "pack": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "lint": "eslint ./src/**/*.ts ./src/**/*.tsx --fix",
@@ -27,7 +27,10 @@
     "test": "echo 'no test here yet'",
     "syncversion": "node scripts/sync-version.js",
     "clean:dist": "npx rimraf app/dist",
-    "art:icon": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --screenshot --window-size=512,512 --default-background-color=0 art/icon/index.html && mv screenshot.png vendor/files/icon.png && \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --screenshot --window-size=512,512 --default-background-color=0 art/icon/index-pure.html && mv screenshot.png vendor/files/icon-pure.png"
+    "art:icon": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --screenshot --window-size=512,512 --default-background-color=0 art/icon/index.html && mv screenshot.png vendor/files/icon.png && \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --screenshot --window-size=512,512 --default-background-color=0 art/icon/index-pure.html && mv screenshot.png vendor/files/icon-pure.png",
+    "clean:release": "npx rimraf release",
+    "genrelease": "node scripts/gen-release.js",
+    "check": "node scripts/check.js"
   },
   "dependencies": {
     "@sentry/electron": "1.1.0",
@@ -140,6 +143,7 @@
   },
   "build": {
     "appId": "org.lightproxy",
+    "asar": true,
     "mac": {
       "category": "",
       "icon": "./vendor/files/icon.icns",
@@ -150,9 +154,6 @@
     "win": {
       "target": "nsis",
       "icon": "./vendor/files/icon.png",
-      "publish": [
-        "github"
-      ]
     },
     "files": [
       "dist/*.js",

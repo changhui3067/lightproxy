@@ -30,6 +30,10 @@ class InnerSettingForm extends React.Component {
                 isUpdating: true,
             });
             try {
+                // @ts-ignore
+                // window.reactTrack.sendTrack({
+                //     click_id: 'check_update',
+                // });
                 const result = await CoreAPI.update();
                 if (!result) {
                     message.success(t('Already latest version'));
@@ -52,7 +56,7 @@ class InnerSettingForm extends React.Component {
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 5 },
+                sm: { span: 6 },
             },
             wrapperCol: {
                 xs: { span: 24 },
@@ -62,7 +66,7 @@ class InnerSettingForm extends React.Component {
         return (
             <Form {...formItemLayout}>
                 <Form.Item label={t('Update Channel')}>
-                    {getFieldDecorator(
+                    {/* {getFieldDecorator(
                         'updateChannel',
                         {},
                     )(
@@ -70,13 +74,14 @@ class InnerSettingForm extends React.Component {
                             <Select.Option value="stable">{t('Stable')}</Select.Option>
                             <Select.Option value="beta">{t('Beta')}</Select.Option>
                         </Select>,
-                    )}
+                    )} */}
+                    <span>{t('Stable')}</span>
                 </Form.Item>
                 <Form.Item label={t('Daily software white-list')}>
                     {getFieldDecorator('softwareWhiteList', {
                         valuePropName: 'checked',
                         initalValue: true,
-                    })(<Switch />)}
+                    })(<Switch className="switch" />)}
                 </Form.Item>
 
                 <Form.Item label={t('Default Port')}>
@@ -84,7 +89,7 @@ class InnerSettingForm extends React.Component {
                 </Form.Item>
                 <Form.Item label={t('Copyright')}>Version {version} Made by IFE Team with love</Form.Item>
                 <Form.Item label={t('Actions')}>
-                    <Button className="action-btn" loading={this.state.isUpdating} onClick={checkUpdate} type="primary">
+                    <Button className="action-btn" loading={this.state.isUpdating} onClick={checkUpdate} type="default">
                         {t('Check Update')}
                     </Button>
                     <Popover
@@ -94,14 +99,14 @@ class InnerSettingForm extends React.Component {
                         title={t('Use DingTalk scan to discuss')}
                         trigger="hover"
                     >
-                        <Button
+                        {/* <Button
                             onClick={() => {
                                 shell.openExternal('https://github.com/alibaba/lightproxy');
                             }}
                             className="action-btn"
                         >
                             {t('Get Help')}
-                        </Button>
+                        </Button> */}
                     </Popover>
                 </Form.Item>
             </Form>
@@ -123,9 +128,9 @@ export const SettingForm = Form.create({
         const { settings } = props;
 
         return {
-            updateChannel: Form.createFormField({
-                value: settings.updateChannel,
-            }),
+            // updateChannel: Form.createFormField({
+            //     value: settings.updateChannel,
+            // }),
             softwareWhiteList: Form.createFormField({
                 value: settings.softwareWhiteList,
             }),

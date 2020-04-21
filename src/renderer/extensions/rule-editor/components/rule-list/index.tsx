@@ -83,8 +83,49 @@ export const RuleList = (props: Props) => {
 # mapping by wildcard
 # ^https://*.example.com file:///User/xxx/xxx.html
 
-# More usage follow document: https://alibaba.github.io/lightproxy/quick-start.html
+# proxy to other port
+# /.*/ proxy://127.0.0.1:9999/
+`,
+        },
+        {
+            name: 'pc-project',
+            enabled: true,
+            uuid: 'pc-project',
+            content: `
+# 对于pc端访问的项目，以susliks为例
 
+# 将本地启动的开发访问环境127.0.0.1映射成固定域名local.ndev.imdada.cn访问
+# local.ndev.imdada.cn 127.0.0.1
+
+# 将本地开发项目部分接口转发到mock服务
+^local.ndev.imdada.cn:8080/cod/*** http://rapapi.ndev.imdada.cn/app/mock/23/cod/$1
+
+# 将本地开发项目部分接口转发到后端沙箱服务
+# ^local.ndev.imdada.cn:8080/cod/*** http://management-portal-d5d5e6.ndev.imdada.cn/cod/$1
+
+# 将本地开发项目部分接口转发到后端本地电脑，拦截并添加请求头
+# ^local.ndev.imdada.cn:8080/cod/*** reqHeaders://\`{"PORTAL_ACCESS_INFO":""}\`
+# ^local.ndev.imdada.cn:8080/cod/*** http://172.16.29.75:8080/cod/$1
+
+# 将前端指定沙箱请求转发到后端沙箱服务
+# ^susliks-c6af6a.ndev.imdada.cn/cod/*** http://management-portal-d5d5e6.ndev.imdada.cn/cod/$1         
+`,
+        },
+        {
+            name: 'h5-project',
+            enabled: true,
+            uuid: 'h5-project',
+            content: `
+# 对于h5访问页面，以knight为例
+
+# 将html页面映射到本地/沙箱
+# ^knight.ndev.imdada.cn/app/ http://www.baidu.com
+
+# 将本地开发项目部分接口转发到mock服务
+# ^exp.ndev.imdada.cn/api/*** http://rapapi.ndev.imdada.cn/app/mock/40/$1
+
+# 将本地开发项目部分接口转发到后端服务
+# ^exp.ndev.imdada.cn/api/*** http://exp-delivery-api-28a756.ndev.imdada.cn/$1
 `,
         },
     ];

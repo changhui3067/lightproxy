@@ -1,7 +1,7 @@
 import { Extension } from '../../extension';
 import logger from 'electron-log';
 import React, { useEffect, useRef, useState } from 'react';
-import { Icon, Dropdown, Menu, message } from 'antd';
+import { Icon, Dropdown, Menu } from 'antd';
 import { lazyParseData, getWhistlePort } from '../../utils';
 import { Modal, Button } from 'antd';
 const confirm = Modal.confirm;
@@ -148,7 +148,7 @@ export class WhistleExntension extends Extension {
         const WhistleStatusbarItem = ({ setStatusBarMode }) => {
             const [onlineState, setOnlineState] = useState('init');
 
-            const [port, setPort] = useState();
+            const [port, setPort] = useState(12888);
 
             useEffect(() => {
                 const modeMap = {
@@ -181,11 +181,21 @@ export class WhistleExntension extends Extension {
                     client = await this.coreAPI.joinBoardcast();
 
                     client.onmessage = event => {
-                        // const data = lazyParseData(event.data as string);
-                        // if (data.eventName === 'whistle-hit') {
-                        //     setHit(data.data.host);
-                        //     setTimeout(hideHit);
-                        // }
+                        const data = lazyParseData(event.data as string);
+                        if (data.eventName === 'whistle-hit') {
+                            setHit(data.data.host);
+                            setTimeout(hideHit);
+                            if (data.data.rule) {
+                                console.log('rule match', data.data);
+                                // @ts-ignore
+                                window.reactTrack &&
+                                    // @ts-ignore
+                                    window.reactTrack.sendTrack({
+                                        click_id: 'rule_match',
+                                        param: data.data,
+                                    });
+                            }
+                        }
                     };
                 })();
 
