@@ -27,6 +27,7 @@
         "clean:dist": "npx rimraf app/dist"
     },
     "dependencies": {
+        "@dada/react-track": "^0.0.29",
         "@sentry/electron": "1.1.0",
         "@sentry/node": "5.10.2",
         "@timkendrick/monaco-editor": "^0.0.9",

@@ -13,6 +13,17 @@ import { App } from './components/app';
 import { i18nResources } from './i18n';
 
 // @ts-ignore
+import * as react_track from '@dada/react-track';
+
+react_track.init({
+    name: 'lightproxy',
+    topic: 'dada_app_h5_log',
+    enabled: true,
+});
+// @ts-ignore
+window.react_track = react_track;
+
+// @ts-ignore
 window.monaco = monaco;
 
 // make links open in external browser, for example monaco

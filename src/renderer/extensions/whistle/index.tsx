@@ -1,6 +1,6 @@
 import { Extension } from '../../extension';
 import logger from 'electron-log';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Icon, Dropdown, Menu } from 'antd';
 import { lazyParseData, getWhistlePort } from '../../utils';
 import { Modal, Button } from 'antd';
@@ -165,6 +165,7 @@ export class WhistleExntension extends Extension {
                     client.onmessage = event => {
                         const data = lazyParseData(event.data as string);
                         if (data.eventName === 'whistle-hit') {
+                            console.log('client on message', data.data);
                             setHit(data.data.host);
                             setTimeout(hideHit);
                         }
