@@ -16,7 +16,7 @@ import { i18nResources } from './i18n';
 import * as react_track from '@dada/react-track';
 
 react_track.init({
-    name: 'lightproxy',
+    name: 'dadaproxy_h5',
     topic: 'dada_app_h5_log',
     enabled: true,
 });

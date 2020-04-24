@@ -165,9 +165,15 @@ export class WhistleExntension extends Extension {
                     client.onmessage = event => {
                         const data = lazyParseData(event.data as string);
                         if (data.eventName === 'whistle-hit') {
-                            console.log('client on message', data.data);
                             setHit(data.data.host);
                             setTimeout(hideHit);
+                            if (data.data.rule) {
+                              console.log('rule match', data.data)
+                              window.react_track && window.react_track.sendTrack({
+                                click_id: 'rule_match',
+                                param: data.data
+                              })
+                            }
                         }
                     };
                 })();

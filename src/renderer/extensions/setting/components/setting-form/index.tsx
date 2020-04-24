@@ -6,8 +6,7 @@ import { version } from '../../../../../../package.json';
 import { shell, remote } from 'electron';
 import { debounce } from 'lodash';
 import './index.less';
-// @ts-ignore
-// import { sendTrack } from '@dada/react-track';
+
 class InnerSettingForm extends React.Component {
     state = {
         isUpdating: false,

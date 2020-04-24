@@ -15,7 +15,7 @@
         "dist:win": "yarn clean:dist && yarn syncversion && yarn compile && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --x64",
         "pack": "yarn dist --dir -c.compression=store -c.mac.identity=null",
         "lint": "eslint ./src/**/*.ts ./src/**/*.tsx --fix",
-        "update:whistle": "rm -rf whistle && git clone https://github.com/avwo/whistle --depth=1 && patch -u -b whistle/lib/inspectors/res.js -i whistle.patch",
+        "update:whistle": "rm -rf whistle && git clone https://github.com/avwo/whistle --depth=1 && patch -u -b whistle/lib/inspectors/res.js -i 0001-path.patch",
         "update:node_modules": "npx rimraf files/node/modules && cd files/node && echo {} > package.json && yarn add ../../whistle-start ../../whistle whistle.vase whistle.scriptfile && mv node_modules modules",
         "cleanbuild": "rm -rf node_modules && yarn install && yarn run update:whistle && yarn run dist",
         "doc": "env SKIP_CACHE=1 bash scripts/depoly-doc.sh",
