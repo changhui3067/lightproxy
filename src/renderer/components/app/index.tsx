@@ -1,17 +1,22 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { StatusBar } from '../status-bar';
 import { getAllExtensions } from '../../extensions';
+import { Feedback } from '../feedback';
 
 import { Icon } from 'antd';
 
 import classnames from 'classnames';
 
 import { useTranslation } from 'react-i18next';
+import { CoreAPI } from '../../core-api';
 
 // @ts-ignore
 import { Titlebar } from 'react-titlebar-osx';
 import { remote } from 'electron';
 import { SYSTEM_IS_MACOS } from '../../const';
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const TIME_DURATION = isDevelopment ? 2400 : 2 * 24 * 60 * 60 * 1000;
 
 export const App = () => {
     const [statusRightItems, setStatusRightItems] = useState([] as Function[]);
@@ -23,6 +28,19 @@ export const App = () => {
     const statusRightItemsRef = useRef(statusRightItems);
 
     const { t } = useTranslation();
+
+    const [showFeedback, setShowFeedback] = useState(false);
+    const feedbackCommited = CoreAPI.store.get('feedbackCommited');
+
+    if (!feedbackCommited && !showFeedback) {
+        let appFirstStartAt = CoreAPI.store.get('appFirstStartAt');
+        if (!appFirstStartAt) {
+            appFirstStartAt = new Date().getTime();
+            CoreAPI.store.set('appFirstStartAt', appFirstStartAt);
+        } else if (new Date().getTime() - appFirstStartAt > TIME_DURATION) {
+            setShowFeedback(true);
+        }
+    }
 
     useEffect(() => {
         const exntesions = getAllExtensions();
@@ -105,6 +123,7 @@ export const App = () => {
             </div>
             <div className="lightproxy-panel-container drag">{Panel ? <Panel /> : null}</div>
             <StatusBar rightItems={statusRightItems} />
+            {showFeedback && <Feedback onClose={() => setShowFeedback(false)} />}
         </div>
     );
 };
