@@ -17,12 +17,16 @@ export const Feedback = (props: any) => {
             return;
         }
         // 上报
-        // window.react_track.sendTrack({
-        //     feedback: {
-        //         rate,
-        //         feedback: feedbackContent,
-        //     },
-        // });
+        // @ts-ignore
+        window.react_track &&
+            // @ts-ignore
+            window.react_track.sendTrack({
+                click_id: 'send_rate',
+                param: {
+                    rate,
+                    feedback: feedbackContent,
+                },
+            });
         CoreAPI.store.set('feedbackCommited', true);
         onClose();
     };

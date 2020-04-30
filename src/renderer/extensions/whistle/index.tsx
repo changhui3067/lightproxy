@@ -168,11 +168,14 @@ export class WhistleExntension extends Extension {
                             setHit(data.data.host);
                             setTimeout(hideHit);
                             if (data.data.rule) {
-                              console.log('rule match', data.data)
-                              window.react_track && window.react_track.sendTrack({
-                                click_id: 'rule_match',
-                                param: data.data
-                              })
+                                console.log('rule match', data.data);
+                                // @ts-ignore
+                                window.react_track &&
+                                    // @ts-ignore
+                                    window.react_track.sendTrack({
+                                        click_id: 'rule_match',
+                                        param: data.data,
+                                    });
                             }
                         }
                     };
