@@ -1,0 +1,37 @@
+{
+  "name": "sockx",
+  "version": "0.1.3",
+  "author": "Brian White <mscdex@mscdex.net>",
+  "description": "SOCKS protocol version 5 server and client implementations for node.js",
+  "main": "./index",
+  "scripts": {
+    "test": "node test/test.js",
+    "lint": "eslint *.js ./lib ",
+    "lintfix": "eslint --fix *.js ./lib"
+  },
+  "devDependencies": {
+    "eslint": "^2.8.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "keywords": [
+    "socks",
+    "socks5",
+    "socksv5",
+    "proxy"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/mscdex/socksv5/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/mscdex/socksv5.git"
+  },
+  "dependencies": {
+    "safe-buffer": "^5.1.2"
+  }
+}

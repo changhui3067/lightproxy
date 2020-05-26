@@ -1,0 +1,13 @@
+{
+  "name": "node-native-zip2",
+  "version": "1.0.0",
+  "description": "A ZIP library without external dependencies",
+  "author": "Jan Jongboom <janjongboom@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/janjongboom/node-native-zip.git"
+  },
+  "dependencies": { },
+  "devDependencies": { },
+  "engine": "node >= 0.4.9"
+}

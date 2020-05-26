@@ -1,0 +1,25 @@
+{
+  "name": "weinre2",
+  "description": "WEb INspector REmote",
+  "author": "apache.org",
+  "version": "1.2.1",
+  "main": "./lib/weinre",
+  "homepage": "http://people.apache.org/~pmuellr/weinre/",
+  "bugs": "https://issues.apache.org/jira/secure/IssueNavigator!executeAdvanced.jspa?jqlQuery=project%3DCB+and+component%3Dweinre&runQuery=true&clear=true",
+  "repository": {
+    "type": "git",
+    "url": "https://git-wip-us.apache.org/repos/asf/cordova-weinre.git"
+  },
+  "licenses": [
+    {
+      "type": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "dependencies": {
+    "errorhandler": "^1.5.0",
+    "express": "4.12.3",
+    "serve-favicon": "^2.4.3",
+    "underscore": "1.7.x"
+  }
+}
