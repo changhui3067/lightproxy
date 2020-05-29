@@ -77,12 +77,12 @@ class InnerSettingForm extends React.Component {
                     )} */}
                     <span>{t('Stable')}</span>
                 </Form.Item>
-                <Form.Item label={t('Daily software white-list')}>
+                {/* <Form.Item label={t('Daily software white-list')}>
                     {getFieldDecorator('softwareWhiteList', {
                         valuePropName: 'checked',
                         initalValue: true,
                     })(<Switch className="switch" />)}
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item label={t('Default Port')}>
                     {getFieldDecorator('defaultPort')(<InputNumber min={1024} max={65534} />)}
@@ -131,9 +131,9 @@ export const SettingForm = Form.create({
             // updateChannel: Form.createFormField({
             //     value: settings.updateChannel,
             // }),
-            softwareWhiteList: Form.createFormField({
-                value: settings.softwareWhiteList,
-            }),
+            // softwareWhiteList: Form.createFormField({
+            //     value: settings.softwareWhiteList,
+            // }),
             defaultPort: Form.createFormField({
                 value: settings.defaultPort,
             }),
