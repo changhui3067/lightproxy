@@ -49,7 +49,7 @@ export async function checkUpdater() {
         //     updateChannel === 'stable'
         //         ? 'https://gw.alipayobjects.com/os/LightProxy/release.json'
         //         : 'https://gw.alipayobjects.com/os/LightProxy/beta-release.json';
-        const url = 'http://git.corp.imdada.cn/changhui/lightproxy/raw/develop/release/update/release.json';
+        const url = 'http://git.corp.imdada.cn/changhui/lightproxy/raw/master/release/update/release.json';
         const res = await fetch(url);
         const data = await res.json();
 

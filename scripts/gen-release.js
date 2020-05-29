@@ -3,7 +3,7 @@ const path = require('path')
 const md5File = require('md5-file')
 const gzip = require('node-gzip').gzip
 
-const DEFAULT_BRANCH = 'develop_ch'
+const DEFAULT_BRANCH = 'master'
 const remoteUrl = `http://git.corp.imdada.cn/changhui/lightproxy/raw/${DEFAULT_BRANCH}/release/update/`
 const macDir = 'mac/LightProxy.app/Contents/Resources'
 const winDir = 'win-unpacked/resources'
@@ -23,7 +23,7 @@ const generateJson = () => {
 
   let releaseJSON = {
     "version": pkgJSON.version,
-    "date": new Date().toISOString() 
+    "date": new Date().toISOString()
   }
   if (mac_md5) {
     releaseJSON = {
@@ -63,7 +63,7 @@ if (fs.pathExistsSync(path.join(__dirname, releaseDir))) {
     fs.ensureDirSync(path.join(__dirname, releaseDir, 'update'))
     const macAsarDir = path.join(__dirname, releaseDir, macDir, asarName)
     const winAsarDir = path.join(__dirname, releaseDir, winDir, asarName)
-  
+
     if (fs.pathExistsSync(macAsarDir)) {
         const macDistDir = path.join(__dirname, releaseDir, 'update', macAsarName)
         mac_md5 = md5File.sync(macAsarDir)

@@ -110,7 +110,7 @@ async function getIp() {
 }
 
 async function getMacAddress() {
-  return getMac();
+    return getMac();
 }
 
 async function checkDarkMode(mainWindow: BrowserWindow) {
