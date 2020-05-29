@@ -16,6 +16,7 @@ import path from 'path';
 import { LIGHTPROXY_FILES_DIR } from './const';
 import { app, nativeTheme, BrowserWindow } from 'electron';
 import Store from 'electron-store';
+import getMac from 'getmac';
 
 const store = new Store();
 
@@ -108,6 +109,10 @@ async function getIp() {
     return ip.address();
 }
 
+async function getMacAddress() {
+  return getMac();
+}
+
 async function checkDarkMode(mainWindow: BrowserWindow) {
     nativeTheme.on('updated', () => {
         ipcMain.callRenderer(mainWindow, 'updateDarkMode', nativeTheme.shouldUseDarkColors);
@@ -144,6 +149,8 @@ export async function initIPC(mainWindow: BrowserWindow) {
     ipcMain.answerRenderer('update', update);
 
     ipcMain.answerRenderer('checkSystemProxy', checkSystemProxy);
+
+    ipcMain.answerRenderer('getMacAddress', getMacAddress);
 
     // start a socketIO server for extension background process
     await BoardcastManager.getInstance();

@@ -47,6 +47,10 @@ export class CoreAPIClass {
         return (await ipcRenderer.callMain('getIp')) as string;
     }
 
+    async getMacAddress() {
+      return (await ipcRenderer.callMain('getMacAddress')) as string;
+    }
+
     async checkDarkMode(setDarkMode: (isDarkMode: boolean) => void) {
         ipcRenderer.answerMain('updateDarkMode', async isDarkMode => {
             setDarkMode(isDarkMode as boolean);

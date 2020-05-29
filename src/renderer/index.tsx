@@ -10,6 +10,7 @@ import '@timkendrick/monaco-editor/dist/external/monaco.css';
 import 'reset-css';
 import { App } from './components/app';
 import { i18nResources } from './i18n';
+import { CoreAPI } from './core-api';
 
 // @ts-ignore
 import * as reactTrack from '@dada/react-track';
@@ -19,6 +20,11 @@ reactTrack.init({
     topic: 'dada_app_h5_log',
     enabled: true,
 });
+
+CoreAPI.getMacAddress().then(res => {
+  reactTrack.setUser(res)
+})
+
 // @ts-ignore
 window.reactTrack = reactTrack;
 
