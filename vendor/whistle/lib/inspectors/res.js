@@ -885,6 +885,7 @@ module.exports = function(req, res, next) {
                             method: 'match-rule',
                             rule: ruleRaw,
                             hostip: req.hostIp,
+                            realUrl: req.realUrl,
                             host: req.get('host')
                           })
                     );
