@@ -22,8 +22,8 @@ reactTrack.init({
 });
 
 CoreAPI.getMacAddress().then(res => {
-  reactTrack.setUser(res)
-})
+    reactTrack.setUser(res);
+});
 
 // @ts-ignore
 window.reactTrack = reactTrack;
