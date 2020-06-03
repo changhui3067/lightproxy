@@ -25,11 +25,21 @@ export class BoardcastManager {
 
         this.mWebSocket.on('connection', ws => {
             ws.on('message', message => {
-                this.mWebSocket.clients.forEach(client => {
-                    if (client.readyState === WebSocket.OPEN && client !== ws) {
-                        client.send(message);
-                    }
-                });
+                // 对于心跳检测，仅返回消息给来检测的client；其他消息广播出去给其他所有client
+                if (message === 'ping') {
+                    console.log('receive ping, current client number: ', this.mWebSocket.clients.size);
+                    this.mWebSocket.clients.forEach(client => {
+                        if (client.readyState === WebSocket.OPEN && client === ws) {
+                            client.send(message);
+                        }
+                    });
+                } else {
+                    this.mWebSocket.clients.forEach(client => {
+                        if (client.readyState === WebSocket.OPEN && client !== ws) {
+                            client.send(message);
+                        }
+                    });
+                }
             });
         });
     }

@@ -176,12 +176,12 @@ export class WhistleExntension extends Extension {
             }, 3000);
 
             useEffect(() => {
-                let client: WebSocket;
+                let client: any;
                 (async () => {
                     client = await this.coreAPI.joinBoardcast();
-
-                    client.onmessage = event => {
+                    client.addEventListener('message', (event: { data: string }) => {
                         const data = lazyParseData(event.data as string);
+
                         if (data.eventName === 'whistle-hit') {
                             setHit(data.data.host);
                             setTimeout(hideHit);
@@ -196,7 +196,7 @@ export class WhistleExntension extends Extension {
                                     });
                             }
                         }
-                    };
+                    });
                 })();
 
                 const handler = () => {
@@ -312,7 +312,7 @@ export class WhistleExntension extends Extension {
             return (
                 <Dropdown overlay={menu}>
                     <div className="whistle-status-bar-item">
-                        {/* {hit ? 'hit ' + hit + '  ' : null}  */}
+                        {/* {hit ? 'hit ' + hit + '  ' : null} */}
                         {/* {t(info.title)} */}
                         {t('Proxy')}
                         {port ? `: [HTTP ${port}/SOCKS5 ${((port as unknown) as number) + 1}]` : null}{' '}

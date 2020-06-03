@@ -4,31 +4,23 @@ import fs from 'fs-extra-promise';
 import md5file from 'md5-file';
 import isDev from 'electron-is-dev';
 import cp from 'child_process';
-import * as Sentry from '@sentry/node';
-import os from 'os';
+import apm from '../apm';
 import { checkUpdateFreash } from './updater';
 import { app } from 'electron';
 // electron multiple process
 
 process.on('unhandledRejection', error => {
     logger.info(error);
-    Sentry.captureException(error);
+    if (error) {
+        apm.captureError(new Error(error as string));
+    }
 });
 process.on('uncaughtException', err => {
     console.log(err);
-    Sentry.captureException(err);
+    apm.captureError(err);
 });
 
 logger.info('env', process.env.ELECTRON_RUN_MODULE);
-Sentry.init({ dsn: 'https://89c6a10a0db64fbca0f5d0c0c02b6902@sentry.io/1866159' });
-
-Sentry.configureScope(scope => {
-    scope.setTag('app-version', APP_VERSION);
-    scope.setTag('os', os.type());
-    scope.setTag('os-version', os.release());
-    scope.setTag('electron-version', process.versions.electron);
-    // scope.clear();
-});
 
 const originSpwan = cp.spawn;
 
