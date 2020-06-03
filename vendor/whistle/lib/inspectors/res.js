@@ -37,17 +37,81 @@ const boardcastPort = process.env.LIGHTPROXY_BOARDCASR_PORT;
 
 console.log('Whistle get boardcast port', boardcastPort);
 
-const wsClient = new ws(`ws://127.0.0.1:${boardcastPort}`);
-const clientReady = new Promise(resolve => {
-  wsClient.onopen = () => {
-        resolve();
-    };
-});
+let wsClient = null
+let clientReady = null
+let lockReconnect = false
+let heartBeat = 2 * 60 * 1000
 
-wsClient.onerror = err => {
-    console.error(err);
-};
+function reconnect(url) {
+  if (lockReconnect) return
 
+  lockReconnect = true
+
+  setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
+    createWS(url);
+    lockReconnect = false;
+  }, heartBeat);
+}
+
+var heartCheck = {
+  timeout: heartBeat,        //2分钟发一次心跳
+  timeoutObj: null,
+  serverTimeoutObj: null,
+  reset: function(){
+      clearTimeout(this.timeoutObj);
+      clearTimeout(this.serverTimeoutObj);
+      return this;
+  },
+  start: function(){
+      var self = this;
+      this.timeoutObj = setTimeout(function(){
+          //这里发送一个心跳，server收到后，返回一个心跳消息，
+          //onmessage拿到返回的心跳就说明连接正常
+          wsClient.send("ping");
+
+          self.serverTimeoutObj = setTimeout(function(){//如果超过一定时间还没重置，说明后端主动断开了
+            wsClient.close();     //如果onclose会执行reconnect，我们执行ws.close()就行了
+          }, self.timeout)
+      }, this.timeout)
+  }
+}
+
+function createWS (url) {
+  wsClient = new ws(url)
+  clientReady = new Promise(resolve => {
+    wsClient.onopen = () => {
+      heartCheck.reset().start();
+      resolve()
+    }
+  })
+
+  wsClient.onerror = err => {
+    reconnect(url)
+    console.error(err)
+  }
+
+  wsClient.onclose = () => {
+    console.log('onclose, try reconnect')
+    reconnect(url)
+  }
+
+  wsClient.onmessage = (message) => {
+    heartCheck.reset().start();
+  }
+}
+
+createWS(`ws://127.0.0.1:${boardcastPort}`)
+
+// const wsClient = new ws(`ws://127.0.0.1:${boardcastPort}`);
+// const clientReady = new Promise(resolve => {
+//   wsClient.onopen = () => {
+//         resolve();
+//     };
+// });
+
+// wsClient.onerror = err => {
+//     console.error(err);
+// };
 
 function notAllowCache(resRules) {
   for (var i = 0; i < BODY_PROTOCOLS_LEN; i++) {

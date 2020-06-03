@@ -7,6 +7,8 @@ import EventEmitterType from 'event-emitter';
 
 import Store from 'electron-store';
 
+import ReconnectingWebSocket from 'reconnecting-websocket';
+
 export class CoreAPIClass {
     private mEventEmitter: EventEmitterType.Emitter;
     private mStore: Store;
@@ -22,7 +24,8 @@ export class CoreAPIClass {
 
     async joinBoardcast() {
         const port = await ipcRenderer.callMain('getBoradcastPort');
-        const client = new WebSocket(`ws://127.0.0.1:${port}/`);
+        // const client = new WebSocket(`ws://127.0.0.1:${port}/`);
+        const client = new ReconnectingWebSocket(`ws://127.0.0.1:${port}/`);
 
         return client;
     }

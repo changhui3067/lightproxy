@@ -2,7 +2,7 @@ import exitHook from 'exit-hook';
 import spwan from 'cross-spawn';
 import { ipcMain } from 'electron-better-ipc';
 import logger from 'electron-log';
-
+import { CoreAPI } from '../renderer/core-api';
 import { BoardcastManager } from './boradcast-manager';
 import { checkSystemProxyWork, setSystemProxy } from './platform';
 import checkInstallStatus from './install';
@@ -156,6 +156,9 @@ export async function initIPC(mainWindow: BrowserWindow) {
     await BoardcastManager.getInstance();
 
     exitHook(async () => {
-        await setSystemProxy(0);
+        const onlineStatus = CoreAPI.store.get('onlineStatus');
+        if (onlineStatus === 'online') {
+            await setSystemProxy(0);
+        }
     });
 }
