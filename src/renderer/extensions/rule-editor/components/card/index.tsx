@@ -10,9 +10,26 @@ interface Props {
     y: number;
 }
 
-const MOCK_PATH = 'github.com/alibaba/lightproxy';
+// const MOCK_PATH = 'github.com/alibaba/lightproxy';
+const MOCK_PATH = 'test.ndev.imdada.cn';
 
 const options = [
+    {
+        value: 'mock-html',
+        title: 'mock html',
+        icon: 'edit',
+        content: `\\$\${1:${MOCK_PATH}} resBody://\`html\` replaceStatus://200
+        
+^$1/*** http://portal.ndev.imdada.cn/\\$1
+`,
+    },
+    {
+        value: 'mapping-url-by-wildcard',
+        title: 'Mapping url by wildcard',
+        icon: 'pic-right',
+        content: `^${MOCK_PATH}/\${1:cod}/*** http://management-portal-53a304.ndev.imdada.cn/$1/\\$1
+`,
+    },
     {
         value: 'js-console',
         title: 'JS Console(with eruda)',
@@ -46,20 +63,14 @@ multiple line
 \`
 `,
     },
-    {
-        value: 'add-cors',
-        title: 'Add CORS Cross-origin header',
-        icon: 'flag',
-        content: `\${1:${MOCK_PATH}} resCors://
-`,
-    },
-    {
-        value: 'mapping-url-by-wildcard',
-        title: 'Mapping url by wildcard',
-        icon: 'pic-right',
-        content: `^\${1:${MOCK_PATH}} \${2:https://g.alicdn.com/another-path/$1}
-`,
-    },
+//     {
+//         value: 'add-cors',
+//         title: 'Add CORS Cross-origin header',
+//         icon: 'flag',
+//         content: `\${1:${MOCK_PATH}} resCors://
+// `,
+//     },
+
     {
         value: 'res-delay',
         title: 'Delay response',
@@ -110,7 +121,7 @@ export const Card = (props: Props) => {
 
     useEffect(() => {
         /* eslint-disable-next-line */
-        const domNode = findDOMNode(selectRef.current) as HTMLElement
+        const domNode = findDOMNode(selectRef.current) as HTMLElement;
         domNode?.click();
     }, []);
 

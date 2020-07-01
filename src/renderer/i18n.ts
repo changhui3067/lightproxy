@@ -23,6 +23,7 @@ export const i18nResources = {
             'Disable system proxy': '禁用系统代理',
             'Enable system proxy': '启用系统代理',
             search: '搜索',
+            'mock html': '模拟html返回',
             'Add CORS Cross-origin header': '增加 CORS 跨域头',
             'Delay response': '延迟请求（resDelay）',
             'Mapping url by wildcard': '通过通配符映射 URL',
